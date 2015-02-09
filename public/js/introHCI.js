@@ -26,7 +26,30 @@ function addProjectDetails(e) {
 	// get rid of 'project' from the front of the id 'project3'
 	var idNumber = projectID.substr('project'.length);
 
+    console.log($(this));
 	console.log("User clicked on project " + idNumber);
+
+    var url = "/project/"+idNumber;
+    console.log(url);
+    $.get(url,addDetails_callback);
+}
+
+function addDetails_callback(result){
+    console.log("In add_Details_Callback");
+    console.log(result);
+    console.log(result['id']);
+    //$(".details").html(result['summary']);
+    //
+    var myDiv = $("#project"+result['id']+"1");
+    console.log(myDiv);
+    //var newid= $(".details").attr('id');
+    //console.log(newid);
+    //var newnew = $(".details").parent().parent();
+    //console.log(newnew);
+    //console.log($(this));
+    //var detailsID = $(".details").attr('id');
+    //console.log(detailsID.substr('project'.length));
+    $("#project"+result['id']+"1").html(result['summary']);
 }
 
 /*
@@ -34,5 +57,21 @@ function addProjectDetails(e) {
  * and apply it
  */
 function randomizeColors(e) {
+
 	console.log("User clicked on color button");
+    $.get("/palette", colors_callback);
+}
+
+function colors_callback(result){
+    console.log(result);
+    var colors =  result['colors'];
+    console.log(colors[0]);
+    console.log(result['colors'][0]);
+
+    $('body').css('background-color', colors[0]);
+    $('.thumbnail').css('background-color', colors[1]);
+    $('h1, h2, h3, h4, h5, h5').css('color', colors[2]);
+    $('p').css('color', colors[3]);
+    $('.project img').css('opacity', .75);
+
 }
